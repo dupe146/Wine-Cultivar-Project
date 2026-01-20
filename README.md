@@ -5,7 +5,7 @@
 
 A machine learning web application that predicts wine cultivar origin based on 13 chemical properties using Support Vector Machine (SVM) algorithm.
 
-**Live Demo:** https://wine-classifier-ilje.onrender.com/
+**Live Demo:** https://winecultivar-project-jimoh-alabi.onrender.com/
 ---
 
 ## 🎯 Project Features
@@ -128,7 +128,7 @@ http://localhost:5000
 
 ### **Deployment URL**
 ```
-https://your-wine-classifier.onrender.com
+https://winecultivar-project-jimoh-alabi.onrender.com/
 ```
 
 ### **Deployment Configuration**

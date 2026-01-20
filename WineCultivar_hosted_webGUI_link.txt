@@ -11,6 +11,6 @@ MODEL PERSISTENCE METHOD USED:
 Method: Pickle (Python's pickle module)
 File: wine_cultivar_model.pkl
 
-LIVE URL OF HOSTED APPLICATION:https://wine-classifier-ilje.onrender.com/
+LIVE URL OF HOSTED APPLICATION:https://winecultivar-project-jimoh-alabi.onrender.com/
 
 GITHUB REPOSITORY LINK:https://github.com/dupe146/WineCultivar_Project_Jimoh-Alabi_Islamiat_Modupe_250000033
