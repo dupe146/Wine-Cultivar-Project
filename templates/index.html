@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wine Cultivar Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
+        /* Inline styles if CSS file is missing */
         * {
             margin: 0;
             padding: 0;
@@ -41,14 +43,6 @@
             font-size: 1.1em;
         }
 
-        .info-box {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin-bottom: 30px;
-            border-radius: 5px;
-        }
-
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -73,7 +67,6 @@
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 1em;
-            transition: border-color 0.3s;
         }
 
         input[type="number"]:focus {
@@ -86,6 +79,7 @@
             gap: 15px;
             justify-content: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
         button {
@@ -94,8 +88,8 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s;
             font-weight: 600;
+            transition: all 0.3s;
         }
 
         .predict-btn {
@@ -113,17 +107,9 @@
             color: #333;
         }
 
-        .reset-btn:hover {
-            background: #d0d0d0;
-        }
-
         .example-btn {
             background: #4CAF50;
             color: white;
-        }
-
-        .example-btn:hover {
-            background: #45a049;
         }
 
         .result-box {
@@ -132,18 +118,11 @@
             padding: 30px;
             border-radius: 15px;
             display: none;
-            animation: slideIn 0.5s;
+            margin-top: 20px;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .result-box.show {
+            display: block;
         }
 
         .result-title {
@@ -159,40 +138,33 @@
             font-weight: bold;
         }
 
-        .confidence-bar {
-            background: rgba(255,255,255,0.3);
+        .confidence-info {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .error-box {
+            background: #f44336;
+            color: white;
+            padding: 15px;
             border-radius: 10px;
-            height: 30px;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-
-        .confidence-fill {
-            background: white;
-            height: 100%;
-            transition: width 1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .probabilities {
+            display: none;
             margin-top: 20px;
         }
 
-        .prob-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+        .error-box.show {
+            display: block;
         }
 
         .loading {
             text-align: center;
             display: none;
             margin: 20px 0;
+        }
+
+        .loading.show {
+            display: block;
         }
 
         .spinner {
@@ -209,33 +181,12 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .error-box {
-            background: #f44336;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            margin-top: 20px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-            font-size: 0.9em;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🍷 Wine Cultivar Classifier</h1>
         <p class="subtitle">AI-Powered Wine Origin Prediction</p>
-
-        <div class="info-box">
-            <strong>About:</strong> This classifier predicts the cultivar origin of wine based on 13 chemical properties. 
-            Enter the values below or try the example data to see it in action!
-        </div>
 
         <form id="predictionForm">
             <div class="form-grid">
@@ -310,15 +261,7 @@
         <div class="result-box" id="resultBox">
             <div class="result-title">Prediction Result</div>
             <div class="result-content" id="predictionResult"></div>
-            <div class="confidence-bar">
-                <div class="confidence-fill" id="confidenceFill"></div>
-            </div>
-            <div class="probabilities" id="probabilities"></div>
-        </div>
-
-        <div class="footer">
-            <p>Built with PyTorch | Masters in Bioinformatics - AI Course</p>
-            <p>© 2025 Wine Classification Project</p>
+            <div class="confidence-info" id="confidenceInfo"></div>
         </div>
     </div>
 
@@ -349,9 +292,9 @@
             ];
 
             // Show loading
-            loading.style.display = 'block';
-            resultBox.style.display = 'none';
-            errorBox.style.display = 'none';
+            loading.classList.add('show');
+            resultBox.classList.remove('show');
+            errorBox.classList.remove('show');
 
             try {
                 const response = await fetch('/predict', {
@@ -364,42 +307,29 @@
 
                 const data = await response.json();
 
-                if (response.ok) {
+                if (response.ok && data.success) {
                     // Display results
-                    document.getElementById('predictionResult').textContent = data.class_name;
+                    const className = data.class_name || `Class ${data.prediction}`;
+                    const confidence = data.confidence ? (data.confidence * 100).toFixed(1) : '—';
                     
-                    const confidence = (data.confidence * 100).toFixed(1);
-                    const confidenceFill = document.getElementById('confidenceFill');
-                    confidenceFill.style.width = confidence + '%';
-                    confidenceFill.textContent = confidence + '%';
+                    document.getElementById('predictionResult').textContent = className;
+                    document.getElementById('confidenceInfo').textContent = 
+                        `Confidence: ${confidence}%`;
 
-                    // Display all probabilities
-                    const probsDiv = document.getElementById('probabilities');
-                    probsDiv.innerHTML = '<strong>Class Probabilities:</strong><br>';
-                    data.all_classes.forEach((className, idx) => {
-                        const prob = (data.probabilities[idx] * 100).toFixed(1);
-                        probsDiv.innerHTML += `
-                            <div class="prob-item">
-                                <span>${className}</span>
-                                <span>${prob}%</span>
-                            </div>
-                        `;
-                    });
-
-                    resultBox.style.display = 'block';
+                    resultBox.classList.add('show');
                 } else {
                     throw new Error(data.error || 'Prediction failed');
                 }
             } catch (error) {
                 errorBox.textContent = 'Error: ' + error.message;
-                errorBox.style.display = 'block';
+                errorBox.classList.add('show');
             } finally {
-                loading.style.display = 'none';
+                loading.classList.remove('show');
             }
         });
 
         function loadExample() {
-            // Example wine sample (Class 0)
+            // Example wine sample
             document.getElementById('alcohol').value = 13.2;
             document.getElementById('malic_acid').value = 2.77;
             document.getElementById('ash').value = 2.51;
@@ -417,8 +347,8 @@
 
         function resetForm() {
             form.reset();
-            resultBox.style.display = 'none';
-            errorBox.style.display = 'none';
+            resultBox.classList.remove('show');
+            errorBox.classList.remove('show');
         }
     </script>
 </body>

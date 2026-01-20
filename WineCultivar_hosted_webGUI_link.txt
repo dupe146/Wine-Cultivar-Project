@@ -13,4 +13,4 @@ File: wine_cultivar_model.pkl
 
 LIVE URL OF HOSTED APPLICATION:https://wine-classifier-ilje.onrender.com/
 
-GITHUB REPOSITORY LINK:
+GITHUB REPOSITORY LINK:https://github.com/dupe146/WineCultivar_Project_Jimoh-Alabi_Islamiat_Modupe_250000033

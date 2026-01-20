@@ -258,11 +258,11 @@ def not_found(e):
 def internal_error(e):
     return jsonify({'error': 'Internal server error'}), 500
 
-
 if __name__ == '__main__':
     # For local development
     import os
-    port = int(os.environ.get('PORT', 5000))
+    
+    port = int(os.environ.get('PORT', 8000))
     
     print("\n" + "=" * 60)
     print("🍷 WINE CULTIVAR CLASSIFICATION API")
@@ -285,4 +285,5 @@ if __name__ == '__main__':
     print(f"  - http://localhost:{port}/api/example")
     print("\n" + "=" * 60 + "\n")
     
+    # Run app
     app.run(debug=True, host='0.0.0.0', port=port)
