@@ -1,0 +1,16 @@
+NAME: Jimoh-Alabi Islamiat Modupeoluwa
+
+REG NUMBER: 250000033
+
+MACHINE LEARNING ALGORITHM USED:
+Primary: Support Vector Machine (SVM) with RBF kernel
+Implementation: Scikit-learn SVC
+Additional models tested: Logistic Regression, Decision Tree (PyTorch Neural Networks)
+
+MODEL PERSISTENCE METHOD USED:
+Method: Pickle (Python's pickle module)
+File: wine_cultivar_model.pkl
+
+LIVE URL OF HOSTED APPLICATION:https://wine-classifier-ilje.onrender.com/
+
+GITHUB REPOSITORY LINK:
