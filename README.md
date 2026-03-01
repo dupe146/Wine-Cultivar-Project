@@ -48,8 +48,8 @@ WineCultivar_Project_Jimoh-Alabi_Islamiat_Modupe_250000033/
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/dupe146/WineCultivar_Project_Jimoh-Alabi_Islamiat_Modupe_250000033.git
-cd WineCultivar_Project_Jimoh-Alabi_Islamiat_Modupe_250000033
+git clone https://github.com/dupe146/Wine-Cultivar-Project.git
+cd Wine-Cultivar-Project
 ```
 
 2. **Create virtual environment:**
