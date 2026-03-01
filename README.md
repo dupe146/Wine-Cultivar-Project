@@ -22,7 +22,7 @@ A machine learning web application that predicts wine cultivar origin based on 1
 ## 📁 Project Structure
 
 ```
-WineCultivar_Project_Jimoh-Alabi_Islamiat_Modupe_250000033/
+Wine-Cultivar-Project/
 
 ├── app.py                              # Flask web application
 ├── requirements.txt                    # Python dependencies
